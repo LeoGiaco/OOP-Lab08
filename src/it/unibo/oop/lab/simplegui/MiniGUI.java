@@ -10,9 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -41,10 +44,28 @@ public class MiniGUI {
         /*
          * Handlers
          */
+//        write.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(final ActionEvent e) {
+//                System.out.println(rng.nextInt());
+//            }
+//        });
+        // 01.01.
+        final JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.X_AXIS));
+        canvas.remove(write);
+        canvas.add(centerPanel, BorderLayout.CENTER);
+        centerPanel.add(write);
+        // 01.02.
+        final JTextField textArea = new JTextField("Result: ");
+        canvas.add(textArea, BorderLayout.NORTH);
+        // 01.03.
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(rng.nextInt());
+                final int num = rng.nextInt();
+                System.out.println(num);
+                textArea.setText("Result: " + Integer.toString(num));
             }
         });
     }
@@ -52,33 +73,35 @@ public class MiniGUI {
     private void display() {
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
-         * enough for a single screen setup. In case of multiple monitors, the
-         * primary is selected. In order to deal coherently with multimonitor
-         * setups, other facilities exist (see the Java documentation about this
-         * issue). It is MUCH better than manually specify the size of a window
-         * in pixel: it takes into account the current resolution.
+         * enough for a single screen setup. In case of multiple monitors, the primary
+         * is selected. In order to deal coherently with multimonitor setups, other
+         * facilities exist (see the Java documentation about this issue). It is MUCH
+         * better than manually specify the size of a window in pixel: it takes into
+         * account the current resolution.
          */
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
         frame.setSize(sw / PROPORTION, sh / PROPORTION);
         /*
-         * Instead of appearing at (0,0), upper left corner of the screen, this
-         * flag makes the OS window manager take care of the default positioning
-         * on screen. Results may vary, but it is generally the best choice.
+         * Instead of appearing at (0,0), upper left corner of the screen, this flag
+         * makes the OS window manager take care of the default positioning on screen.
+         * Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
         /*
          * OK, ready to pull the frame onscreen
          */
+        frame.pack();
         frame.setVisible(true);
     }
 
     /**
-     * @param args ignored
+     * @param args
+     *                 ignored
      */
     public static void main(final String... args) {
-       new MiniGUI().display();
+        new MiniGUI().display();
     }
 
 }
