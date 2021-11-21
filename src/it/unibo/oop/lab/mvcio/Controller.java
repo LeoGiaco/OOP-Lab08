@@ -1,8 +1,7 @@
 package it.unibo.oop.lab.mvcio;
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -39,7 +38,7 @@ public final class Controller {
         this.file = new File(Controller.toPath(System.getProperty("user.home"), "output.txt"));
     }
 
-    private static String toPath(final String...pieces) {
+    public static String toPath(final String...pieces) {
         return String.join(SEPARATOR, pieces);
     }
 
@@ -56,8 +55,8 @@ public final class Controller {
     }
 
     public void write(final String content) throws IOException {
-        try (DataOutputStream d = new DataOutputStream(new FileOutputStream(this.file))) {
-            d.writeUTF(content);
+        try (FileWriter f = new FileWriter(this.file)) {
+            f.write(content);
         }
     }
 }
